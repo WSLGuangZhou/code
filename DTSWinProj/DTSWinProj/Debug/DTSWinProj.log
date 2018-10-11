@@ -1,0 +1,48 @@
+﻿Build started 2018/6/4 10:13:53.
+     1>Project "E:\work\code\DTSWinProj\DTSWinProj\DTSWinProj.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Debug\DTSWinProj.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         All outputs are up-to-date.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IE:\work\code\OrganizedNetCtrlServicePrj\src\baseServiceLayer\thirdProtocolStack\cspf\include /IE:\work\code\OrganizedNetCtrlServicePrj\src\common /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ..\DTSCommon\DTSTestCommonLib.cpp
+         DTSTestCommonLib.cpp
+       ManifestResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\work\code\DTSWinProj\Debug\DTSWinProj.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\DTSWinProj.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"E:\work\code\DTSWinProj\Debug\DTSWinProj.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\work\code\DTSWinProj\Debug\DTSWinProj.lib" /MACHINE:X86 Debug\DTSWinProj.exe.embed.manifest.res
+         Debug\BISPMem.obj
+         Debug\BISPUtil.obj
+         Debug\DTSCommonLibFunc.obj
+         Debug\DTSDebug.obj
+         Debug\DTSTestCommonLib.obj
+         Debug\DTSTestUnit.obj
+         Debug\FastMalloc.obj
+         Debug\NslProfile.obj
+         Debug\SoftBus.obj
+         Debug\DTSVirtualNetManager.obj
+         Debug\DTSVirtualNetManagerFuncCall.obj
+         Debug\DTSVirtualNetManagerInterface.obj
+         Debug\DTSVirtualNetManagerPath.obj
+         Debug\DTSVirtualNetManagerFuncCallTestStub.obj
+         Debug\DTSVirtualNetManagerTestFunc.obj
+         Debug\DTSVirtualNetManagerTestFunc2.obj
+         Debug\DTSVirtualNetManagerTestFunc2_1.obj
+         Debug\DTSVirtualNetManagerTestFunc3.obj
+         Debug\DTSVirtualNetManagerTestFunc4.obj
+         Debug\DTSVirtualNetManagerTestFunc5.obj
+         Debug\DTSWinProj.obj
+         Debug\stdafx.obj
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug\DTSWinProj.exe.embed.manifest" /manifest Debug\DTSWinProj.exe.intermediate.manifest
+         All outputs are up-to-date.
+       LinkEmbedManifest:
+         All outputs are up-to-date.
+         DTSWinProj.vcxproj -> E:\work\code\DTSWinProj\Debug\DTSWinProj.exe
+       FinalizeBuildStatus:
+         Deleting file "Debug\DTSWinProj.unsuccessfulbuild".
+         Touching "Debug\DTSWinProj.lastbuildstate".
+     1>Done Building Project "E:\work\code\DTSWinProj\DTSWinProj\DTSWinProj.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:14.74

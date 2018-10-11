@@ -1,0 +1,114 @@
+/********************************************************************
+	created:	2018/04/09
+	created:	9:4:2018   17:20
+	filename: 	DTSVirtualNetManagerPath.cpp
+	author:		sl.wu
+	
+	purpose:	虚网管理模块路径管理
+*********************************************************************/
+#include "../DTSCommon/DTSCommon.h"
+#include "DTSVirtualNetManager.h"
+#include "DTSVirtualNetManagerFuncCall.h"
+#include "DTSVirtualNetManagerInterface.h"
+#include "DTSVirtualNetManagerLabel.h"
+#include "DTSVirtualNetManagerPath.h"
+
+//#include "netCoreCtrlTypeDef.h"
+
+DTSVNMPathMap	l_mapPath;
+
+
+//记录一条路径
+int DTSVNMAddNewPath(LPDTSVNMPath pPath)
+{
+	BISPASSERT(NULL!=pPath);
+	DTSVNMPathIter	iterPath;
+	LPDTSVNMPath pPathSave;
+	UINT i = 0;
+
+	DTS_VNM_DEBUG_PRINTF(DEBUG_FLOW)
+		("[FLOW][VNM] Add New Path(%d) VNet(%d) Src(0x%x) Dst(0x%x)\n",
+		pPath->m_nPathID,pPath->m_nVirNetNo,
+		pPath->m_dwBeginSwitcherLoopBack,pPath->m_dwEndSwitcherLoopBack);
+
+	iterPath = l_mapPath.find(pPath->m_nPathID);
+	if (iterPath!=l_mapPath.end())
+	{
+		DTS_VNM_DEBUG_PRINTF(DEBUG_ERROR)
+			("[ERROR] DTSVNMAddNewPath Fail PathID(%d) Already Exist\n",pPath->m_nPathID);
+		return VNM_RESULT_EXCEPTION;
+	}
+	else
+	{
+//		pPathSave = (LPDTSVNMPath)DTS_MALLOC(sizeof(DTSVNMPath));
+		pPathSave = new DTSVNMPath;
+		if (NULL==pPathSave)
+		{
+			DTS_VNM_DEBUG_PRINTF(DEBUG_ERROR)
+				("[ERROR] DTSVNMAddNewPath(%d) Memery Malloc Fail \n",pPath->m_nPathID);
+			return VNM_RESULT_EXCEPTION;
+		}
+//		memcpy(pPathSave,pPath,sizeof(DTSVNMPath));
+		pPathSave->m_nPathID = pPath->m_nPathID;
+		pPathSave->m_nVirNetNo = pPath->m_nVirNetNo;
+		pPathSave->m_nSwitcherCount = pPath->m_nSwitcherCount;
+		pPathSave->m_dwBeginSwitcherLoopBack = pPath->m_dwBeginSwitcherLoopBack;
+		pPathSave->m_nBeginPortIndex = pPath->m_nBeginPortIndex;
+		pPathSave->m_dwEndSwitcherLoopBack = pPath->m_dwEndSwitcherLoopBack;
+		pPathSave->m_nEndPortIndex = pPath->m_nEndPortIndex;
+
+		for(i=0; i<pPath->m_vectLabelSwitch.size(); i++)
+		{
+			pPathSave->m_vectLabelSwitch.push_back(pPath->m_vectLabelSwitch[i]);
+			pPathSave->m_vectLabelSwitch[i].m_pPath = pPathSave;
+		}	
+
+		l_mapPath[pPath->m_nPathID] = pPathSave;
+		return VNM_RESULT_OK;
+	}	
+}
+
+
+LPDTSVNMPath DTSVNMGetPath(UINT nPathID)
+{
+	if (0==l_mapPath.count(nPathID))
+	{
+		return NULL;
+	}
+	return l_mapPath[nPathID];
+}
+
+
+
+UINT DTSVNMGetPathCount()
+{
+	return l_mapPath.size();
+}
+
+
+//删除一条路径
+int DTSVNMDelPath(UINT nPathID)
+{
+
+	DTSVNMPathIter	iterPath;
+	LPDTSVNMPath pPath;
+	iterPath = l_mapPath.find(nPathID);	
+	if (iterPath==l_mapPath.end())
+	{
+		DTS_VNM_DEBUG_PRINTF(DEBUG_ERROR)
+			("[ERROR] DTSVNMDelPath PathID(%d) Not Exist\n",nPathID);
+		return VNM_RESULT_EXCEPTION;
+	}
+	pPath = iterPath->second;
+	DTS_VNM_DEBUG_PRINTF(DEBUG_FLOW)
+		("[FLOW][VNM] Del Path(%d) Src(0x%x) Dst(0x%x)\n",
+		pPath->m_nPathID,pPath->m_dwBeginSwitcherLoopBack,pPath->m_dwEndSwitcherLoopBack);
+
+	delete(pPath);
+	l_mapPath.erase(nPathID);
+
+	return VNM_RESULT_OK;
+}
+
+
+

@@ -1,0 +1,213 @@
+/********************************************************************
+	created:	2018/04/09
+	created:	9:4:2018   17:15
+	filename: 	DTSVirtualNetManager.h
+	author:		sl.wu
+	
+	purpose:	虚网管理模块
+*********************************************************************/
+
+#ifndef DTS_VIRTUAL_NET_MANAGER_H_INCLUDED
+#define DTS_VIRTUAL_NET_MANAGER_H_INCLUDED
+
+#include <map>
+#include <vector>
+
+using namespace std;
+
+//PACK_BEGIN
+#include "../DTSCommon/packBegin.h"
+
+//////////////////////////////////////////////////////////////////////////
+//虚网管理模块Debug打印开关
+extern DWORD g_dwDTSVNMDebugOption;
+#define DTS_VNM_DEBUG_PRINTF(nOption)	if((nOption)&g_dwDTSVNMDebugOption) DTS_PRINTF
+
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//出口结构定义
+#define DTS_VNET_NO_NULL		(UINT)-1
+#define DTS_VNM_MAC_LEN			6
+#define DTS_VNM_INVALID_MAC		0xFF
+typedef struct tagDTSVirtualNetManagerPortStruct
+{
+// 	tagDTSVirtualNetManagerOutPortStruct*	m_pNextNode;
+// 	tagDTSVirtualNetManagerOutPortStruct*	m_pPrevNode;
+
+	//所属交换机
+	DWORD	m_dwSwitcherLoopBack;
+	//端口号
+	UINT	m_nPortIndex;
+ 	//所属交换机
+// 	void*	m_pSwitcher;
+	//是否为出口
+	BOOL	m_bIsOutPort;
+	//是否为Active，如果是出口处于Active，但不属于任何VNet，则是公网交换
+	BOOL	m_bIsAcitve;
+	//如果是出口，则记录所属虚网
+	UINT	m_nVirNetNo;
+//	void*	m_pVirtualNet;	
+	//对端端口、暂时没用
+//	tagDTSVirtualNetManagerOutPortStruct*	m_pOppoPort;
+	//涉及的路径PathID列表
+	vector<UINT>	m_vectPathID;
+	
+	//标签引用计数
+	map<UINT,UINT>	m_mapLabelReffrence;
+
+}*LPDTSVNMPort,DTSVNMPort,DTSVNMPORT,*LPDTSVNMPORT;
+typedef map<UINT,LPDTSVNMPort>		DTSVNMPortMap;
+typedef DTSVNMPortMap::iterator		DTSVNMPortIter;
+typedef map<UINT,UINT>::iterator	DTSVNMLabelReffIter;
+//typedef CFastListT<DTSVNMPort>	DTSVNMPortList;
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//交换机结构定义
+typedef struct tagDTSVirtualNetManagerSwitherStruct
+{
+// 	tagDTSVirtualNetManagerSwitherStruct*	m_pNextNode;
+// 	tagDTSVirtualNetManagerSwitherStruct*	m_pPrevNode;
+
+	//LoopBackAddress地址
+	DWORD			m_dwSwitcherLoopBack;
+	UINT			m_nIndex;
+	
+// 	//所属虚网，该数据用于虚网列表中
+// 	void* m_pVirtualNet;	
+// 	//在该虚网的唯一出口Index，该数据用于虚网列表中
+// 	UINT  m_nOutPortIndex;
+	
+	//出口端口列表
+	DTSVNMPortMap	m_mapPort;
+
+}*LPDTSVNMSwitcher,DTSVNMSwitcher,DTSVNMSWITCHER,*LPDTSVNMSWITCHER;
+//typedef CFastListT<DTSVNMSwither>	DTSVNMSwitcherList;
+typedef map<DWORD , LPDTSVNMSwitcher>	DTSVNMSwitcherMap;
+typedef DTSVNMSwitcherMap::iterator		DTSVNMSwitcherIter;
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//虚网结构定义
+#define DTS_VNM_VIRNET_NAME_LENGTH				16
+typedef map<DWORD,UINT> DTSVNMVirNetOutPortMap;	
+typedef DTSVNMVirNetOutPortMap::iterator DTSVNMVirNetOutPortIter; 
+typedef struct tagDTSVirtualNetStruct
+{
+	//状态
+	UINT	m_nStats;
+	//虚网号
+	UINT	m_nVirNetNo;
+	//虚网名称
+	char	m_szVirNetName[DTS_VNM_VIRNET_NAME_LENGTH];
+	//虚网交换标签
+	UINT	m_nVirLabelRef;
+	//带宽要求
+	UINT	m_nBandWidth;
+	//出口端口，一个虚网同一个交换机只有一个出口
+	DTSVNMVirNetOutPortMap	m_mapOutPort;
+	
+	//中继端口，暂不使用，拓扑变化时的更新太复杂
+//	DTSVNMVirNetOutPortMap	m_mapTrunkPort;
+	
+}DTSVirtualNet,*LPDTSVirtualNet;
+typedef map<UINT , LPDTSVirtualNet>	DTSVNMVirNetMap;
+typedef DTSVNMVirNetMap::iterator DTSVNMVirNetIter;
+
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//参数调用结构体，对外调用和被外部调用共用
+#define DTS_VNM_PARAM_BUFF_LEN		16
+
+typedef struct tagDTSVNMFuncCallParam
+{
+	UINT	m_nVirNetNo;
+	UINT	m_nVNetLabel;
+	UINT	m_nBandWidth;
+	char	m_pBuff[DTS_VNM_PARAM_BUFF_LEN];
+	UINT	m_nBuffLenth;
+
+	DWORD	m_dwSwitcherLoopBack;
+	UINT	m_nPortIndex;
+			
+	DWORD	m_dwOppoLoopBack;
+	UINT	m_nOppoPortIndex;
+
+	//两个出口的对端Mac地址
+	BYTE	m_arrbInOppoMac[DTS_VNM_MAC_LEN];
+	BYTE	m_arrbOutOppoMac[DTS_VNM_MAC_LEN];
+
+	UINT	m_nOutPWLabel;	
+	UINT	m_nOutVCLabel;
+	UINT	m_nInPWLabel;
+	UINT	m_nInVCLabel;
+	
+	UINT	m_nFTAction;
+	char*	m_pReValueBuff;
+	UINT	m_nReValueLen;
+	UINT64  m_n64Cookie;
+
+}DTSVNMParam,*LPDTSVNMParam,DTSVNMFUNCCALLPARAM,*LPDTSVNMFUNCCALLPARAM;
+
+//收到外部调用的消息类型
+enum DTS_VNM_RECIEVE_MESSAGE_TYPE
+{
+//	DTS_VNM_MSG_NONE				,
+
+	DTS_VNM_MSG_VIRNET_NEW			,
+	DTS_VNM_MSG_VIRNET_DEL			,
+	DTS_VNM_MSG_PORT_ADD			,
+	DTS_VNM_MSG_PORT_DEL			,
+	DTS_VNM_MSG_LINK_DOWN			,
+	//增加新的消息，需同步增加调试打印字符串
+
+	DTS_VNM_MSG_PORT_COUNT			,
+};
+
+enum DTS_VNM_STATS_TYPE
+{
+	//没有出口的状态
+	DTS_VNM_STATS_NONE				,
+	//只有一个出口的状态
+	DTS_VNM_STATS_ONE_OUT_PORT		,
+	//有两个或以上出口
+	DTS_VNM_STATS_ACTIVE			,
+	//同步更新打印字符串
+
+	DTS_VNM_STATS_COUNT
+};
+
+//////////////////////////////////////////////////////////////////////////
+//虚网名称函数
+char* DTSVNMGetVirNetPrefix();
+int	  DTSVNMSetVirNetPrefix(char* lpPrefix);
+char* DTSVNMGetVirNetName(LPDTSVirtualNet pVirNet);
+int	  DTSVNMSetVirNetName(LPDTSVirtualNet pVirNet);
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//收到外部调用请求
+int DTSVNMGetMsg(UINT nMsgType ,LPDTSVNMParam pVNMParam);
+
+//------------------------------------------------------------------------------------
+//列表操作函数
+//检索
+LPDTSVirtualNet DTSVNMGetVirNetByNo(UINT nVirNetNo);
+LPDTSVNMSwitcher DTSVNMGetSwitcherByLoopBack(DWORD dwLoopBack);
+LPDTSVNMPort DTSVNMGetPort(DWORD dwLoopBack,UINT nPortIndex);
+UINT DTSVNMGetVirNetCount();
+UINT DTSVNMGetSwitcherCount();
+
+//------------------------------------------------------------------------------------
+//打印函数
+char* DTSVNMGetFuncTypeStr(UINT nType);
+char* DTSVNMGetFTActionStr(UINT nType);
+
+#include "../DTSCommon/packEnd.h"
+//PACK_END
+
+#endif	//DTS_VIRTUAL_NET_MANAGER_H_INCLUDED
+
+

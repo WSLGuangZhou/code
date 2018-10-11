@@ -1,0 +1,91 @@
+/********************************************************************
+	created:	2018/04/09
+	created:	9:4:2018   17:16
+	filename: 	DTSVirtualNetManagerFuncCall.cpp
+	author:		sl.wu
+	
+	purpose:	虚网管理模块需要对外调用接口
+*********************************************************************/
+
+#include "../DTSCommon/DTSCommon.h"
+#include "../DTSCommon/BISPSocket.h"
+#include "DTSVirtualNetManagerFuncCall.h"
+#include "DTSVirtualNetManagerInterface.h"
+#include "DTSVirtualNetManager.h"
+
+LOCAL SOCKET			l_hSocket;
+LOCAL SOCKADDR_IN		l_sockaddr;
+//#define LOCAL_UDP_PORT			52345
+#define SWITCH_OF_RECV_PORT		8060
+
+int DTSVNMInitSendUDPSocket()
+{
+#ifdef NSL_OS_WINDOWS
+	WSADATA wsd;
+	if( WSAStartup(MAKEWORD(2,2),&wsd)!=0 )
+	{
+		DTS_VNM_DEBUG_PRINTF(DEBUG_ERROR)
+			("\n!!!!ERROR TC : WSAStartup Fail\n\n");
+		DTS_VNM_DEBUG_PRINTF(DEBUG_ERROR)
+			("\n!!!!ERROR TC : Windows Error Code(%d)\n\n",WSAGetLastError());			
+		return VNM_RESULT_EXCEPTION;
+	}
+#endif
+	l_hSocket = socket(AF_INET, SOCK_DGRAM,0);
+	if (INVALID_SOCKET == l_hSocket)
+	{
+		DTS_VNM_DEBUG_PRINTF(DEBUG_ERROR)
+			("!!!![ERROR] DTSVNMInitSendUDPSocket INVALID_SOCKET == l_hSocket\n");
+		return VNM_RESULT_EXCEPTION;
+	}
+
+
+//	int nSockOption;
+// 	if (SOCKET_ERROR == SOCK_IOCTRL(pUDP->m_hOppositeSocket,
+// 		FIONBIO,
+// 		&nSockOption))
+
+
+	return VNM_RESULT_OK;
+}
+
+LOCAL int DTSVNMSendBuff(DWORD dwDstAddr,BYTE* pBuff,int nLen)
+{
+	l_sockaddr.sin_addr.s_addr = htonl(dwDstAddr);
+	l_sockaddr.sin_family = AF_INET;
+	l_sockaddr.sin_port = htons((unsigned short)SWITCH_OF_RECV_PORT);
+	int nSendLen = sendto(	l_hSocket,
+							(LPSTR)pBuff,nLen,0,
+							(sockaddr*)&l_sockaddr,
+							sizeof(sockaddr));
+	if (SOCKET_ERROR == nSendLen)
+	{
+		DTS_VNM_DEBUG_PRINTF(DEBUG_ERROR)
+			("!!!![ERROR] DTSVNMSendBuff Send to (0x%x) Buff Len(%d) Fail\n",
+			dwDstAddr,nLen);
+		return VNM_RESULT_EXCEPTION;
+	}
+
+	return VNM_RESULT_OK;
+}
+
+
+//调用真实外部接口，需要相应的库，测试DTS_TEST打开的情况下则调用stub中的函数
+#ifndef DTS_TEST
+
+//////////////////////////////////////////////////////////////////////////
+//调用真实外部接口，需要相应的库
+int DTSVNMFuncCall(int nFuncType,tagDTSVNMFuncCallParam* pParam)
+{
+	DTS_VNM_DEBUG_PRINTF(DEBUG_ENTRY)
+		("[ENTRY][VNM] DTSVNMFuncCall FunType(%s)\n",
+		DTSVNMGetFuncTypeStr(nFuncType));
+
+	return VNM_RESULT_OK;
+}
+
+
+#endif //DTS_TEST
+
+
+

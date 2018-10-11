@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0DD0B988-DBE6-47E9-8DE0-B9ACCEB066A3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>DTSWinProj</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>E:\work\code\OrganizedNetCtrlServicePrj\src\baseServiceLayer\thirdProtocolStack\cspf\include;E:\work\code\OrganizedNetCtrlServicePrj\src\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\OrganizedNetCtrlServicePrj\src\baseServiceLayer\thirdProtocolStack\cspf\include\nsl\proto\topology\tplg.h" />
+    <ClInclude Include="..\..\OrganizedNetCtrlServicePrj\src\common\baseTypeDef.h" />
+    <ClInclude Include="..\..\OrganizedNetCtrlServicePrj\src\common\commTypeDef.h" />
+    <ClInclude Include="..\..\OrganizedNetCtrlServicePrj\src\common\netCoreCtrlTypeDef.h" />
+    <ClInclude Include="..\DTSCommon\BISPMem.h" />
+    <ClInclude Include="..\DTSCommon\BISPSocket.h" />
+    <ClInclude Include="..\DTSCommon\BISPUtil.h" />
+    <ClInclude Include="..\DTSCommon\DTSCommon.h" />
+    <ClInclude Include="..\DTSCommon\DTSCommonLibFunc.h" />
+    <ClInclude Include="..\DTSCommon\DTSConfig.h" />
+    <ClInclude Include="..\DTSCommon\DTSDebug.h" />
+    <ClInclude Include="..\DTSCommon\DTSGtestExcList.h" />
+    <ClInclude Include="..\DTSCommon\DTSMutilChildTree.h" />
+    <ClInclude Include="..\DTSCommon\DTSTestCommonLib.h" />
+    <ClInclude Include="..\DTSCommon\DTSTestUnit.h" />
+    <ClInclude Include="..\DTSCommon\DTSTypes.h" />
+    <ClInclude Include="..\DTSCommon\FastList.h" />
+    <ClInclude Include="..\DTSCommon\FastMalloc.h" />
+    <ClInclude Include="..\DTSCommon\FastVector.h" />
+    <ClInclude Include="..\DTSCommon\NslProfile.h" />
+    <ClInclude Include="..\DTSCommon\nsl_platform.h" />
+    <ClInclude Include="..\DTSCommon\nsl_port.h" />
+    <ClInclude Include="..\DTSCommon\packBegin.h" />
+    <ClInclude Include="..\DTSCommon\packEnd.h" />
+    <ClInclude Include="..\DTSCommon\SoftBus.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSOpenFlowCommon.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSOpenFlowParser.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSOpenFlowPrivate.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSVirtualNetManager.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSVirtualNetManagerFuncCall.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSVirtualNetManagerInterface.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSVirtualNetManagerPath.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\DTSVirtualNetManagerPathInterface.h" />
+    <ClInclude Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerTestFunc.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\DTSCommon\BISPMem.cpp" />
+    <ClCompile Include="..\DTSCommon\BISPUtil.cpp" />
+    <ClCompile Include="..\DTSCommon\DTSCommonLibFunc.cpp" />
+    <ClCompile Include="..\DTSCommon\DTSDebug.cpp" />
+    <ClCompile Include="..\DTSCommon\DTSTestCommonLib.cpp" />
+    <ClCompile Include="..\DTSCommon\DTSTestUnit.cpp" />
+    <ClCompile Include="..\DTSCommon\FastMalloc.cpp" />
+    <ClCompile Include="..\DTSCommon\NslProfile.cpp" />
+    <ClCompile Include="..\DTSCommon\SoftBus.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\DTSOpenFlowParser.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\DTSVirtualNetManager.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\DTSVirtualNetManagerFuncCall.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\DTSVirtualNetManagerInterface.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\DTSVirtualNetManagerPath.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerFuncCallTestStub.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerTestFunc.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerTestFunc2.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerTestFunc2_1.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerTestFunc3.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerTestFunc4.cpp" />
+    <ClCompile Include="..\DTSVirtualNetManager\test\DTSVirtualNetManagerTestFunc5.cpp" />
+    <ClCompile Include="DTSWinProj.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

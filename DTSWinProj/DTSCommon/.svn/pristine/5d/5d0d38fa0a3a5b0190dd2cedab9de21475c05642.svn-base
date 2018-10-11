@@ -1,0 +1,7 @@
+
+
+//////////////////////////////////////////////////////////////////////////
+//gTest÷¥––À≥–Ú
+#include "../DTSVirtualNetManager/test/DTSVirtualNetManagerTestFunc.cpp"
+
+

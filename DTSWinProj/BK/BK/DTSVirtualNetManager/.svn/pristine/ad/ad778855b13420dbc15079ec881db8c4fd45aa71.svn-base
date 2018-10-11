@@ -1,0 +1,71 @@
+/********************************************************************
+	created:	2018/04/09
+	created:	9:4:2018   17:20
+	filename: 	DTSVirtualNetManagerPath.h
+	author:		sl.wu
+	
+	purpose:	虚网管理模块路径管理
+*********************************************************************/
+#ifndef DTS_VIRTUAL_NET_MANAGER_PATH_H_INCLUDED
+#define DTS_VIRTUAL_NET_MANAGER_PATH_H_INCLUDED
+
+#include <map>
+#include <vector>
+
+//PACK_BEGIN
+#include "../DTSCommon/packBegin.h"
+
+//交换
+typedef struct tagDTSVNMLabelSwitchStruct
+{
+	DWORD	m_dwSwitcherLoopBack;
+	void*	m_pPath;
+
+	UINT	m_nInPortIndex;
+	UINT	m_nInLabel;
+
+	UINT	m_nOutPortIndex;
+	UINT	m_nOutLabel;
+
+}DTSVNMLabelSwitch,*LPDTSVNMLabelSwitch;
+//typedef map<DWORD,LPDTSVNMLabelSwitch>	DTSVNMLabelSwitchMap;
+//typedef vector<DTSVNMLabelSwitch>			DTSVNMLabelSwitchVector;
+
+//路径
+typedef struct tagDTSVNMPathStruct
+{	
+	UINT	m_nPathID;
+	UINT	m_nVirNetNo;
+	UINT	m_nSwitcherCount;
+
+	DWORD	m_dwBeginSwitcherLoopBack;
+	UINT	m_nBeginPortIndex;
+
+	DWORD	m_dwEndSwitcherLoopBack;
+	UINT	m_nEndPortIndex;
+
+	vector<DTSVNMLabelSwitch>	m_vectLabelSwitch;
+
+}DTSVNMPath,*LPDTSVNMPath;
+typedef map<UINT,LPDTSVNMPath>	DTSVNMPathMap;
+typedef DTSVNMPathMap::iterator	DTSVNMPathIter;
+
+//记录一条路径
+int DTSVNMAddNewPath(LPDTSVNMPath pPath);
+//删除一条路径
+int DTSVNMDelPath(UINT nPathID);
+//检索
+LPDTSVNMPath DTSVNMGetPath(UINT nPathID);
+//个数
+UINT DTSVNMGetPathCount();
+
+extern DTSVNMPathMap	l_mapPath;
+
+#include "../DTSCommon/packEnd.h"
+//PACK_END
+	
+#endif
+
+
+
+
